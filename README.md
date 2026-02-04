@@ -13,7 +13,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
@@ -23,9 +22,9 @@
 <h3 align="center">Class-Dictionary Specialization of Rank-2 Polymorphic Functions</h3>
 
   <p align="center">
-    <a href="https://github.com/yonggqiii/optimizing-syb/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/plilab/class-spec-rank2/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/yonggqiii/optimizing-syb/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/plilab/class-spec-rank2/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -64,8 +63,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About
 
-https://github.com/user-attachments/assets/d1dd286b-6265-46f3-b1f1-ec6c9d071de5
-
 This is a GHC plugin for optimizing Haskell programs that use rank-2 polymorphic functions with (ad-hoc) polymorphic arguments. A typical example is the [Scrap Your Boilerplate (SYB)](https://wiki.haskell.org/Scrap_your_boilerplate) library.
 
 This plugin has been tested on GHC version 9.8.4. Support for more GHC versions is in progress.
@@ -86,8 +83,8 @@ To get a local copy up and running follow these simple example steps.
 ### Installing and Building
 * Clone this repository
   ```sh
-  git clone https://github.com/yonggqiii/optimizing-syb.git
-  cd optimizing-syb/
+  git clone https://github.com/plilab/class-spec-rank2.git
+  cd class-spec-rank2/
   ```
 * Building
   ```sh
@@ -224,8 +221,8 @@ Don't forget to give the project a star! Thanks again!
 
 ### Top contributors:
 
-<a href="https://github.com/yonggqiii/optimizing-syb/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=yonggqiii/optimizing-syb" alt="contrib.rocks image" />
+<a href="https://github.com/plilab/class-spec-rank2/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=plilab/class-spec-rank2" alt="contrib.rocks image" />
 </a>
 
 
@@ -244,22 +241,20 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Foo Yong Qi - yongqi@nus.edu.sg
 
-Project Link: [https://github.com/yonggqiii/optimizing-syb](https://github.com/yonggqiii/optimizing-syb)
+Project Link: [https://github.com/plilab/class-spec-rank2](https://github.com/plilab/class-spec-rank2)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/yonggqiii/optimizing-syb.svg?style=for-the-badge
-[contributors-url]: https://github.com/yonggqiii/optimizing-syb/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/yonggqiii/optimizing-syb.svg?style=for-the-badge
-[forks-url]: https://github.com/yonggqiii/optimizing-syb/network/members
-[stars-shield]: https://img.shields.io/github/stars/yonggqiii/optimizing-syb.svg?style=for-the-badge
-[stars-url]: https://github.com/yonggqiii/optimizing-syb/stargazers
-[issues-shield]: https://img.shields.io/github/issues/yonggqiii/optimizing-syb.svg?style=for-the-badge
-[issues-url]: https://github.com/yonggqiii/optimizing-syb/issues
-[license-shield]: https://img.shields.io/github/license/yonggqiii/optimizing-syb.svg?style=for-the-badge
-[license-url]: https://github.com/yonggqiii/optimizing-syb/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/fooyongqi
+[contributors-shield]: https://img.shields.io/github/contributors/plilab/class-spec-rank2.svg?style=for-the-badge
+[contributors-url]: https://github.com/plilab/class-spec-rank2/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/plilab/class-spec-rank2.svg?style=for-the-badge
+[forks-url]: https://github.com/plilab/class-spec-rank2/network/members
+[stars-shield]: https://img.shields.io/github/stars/plilab/class-spec-rank2.svg?style=for-the-badge
+[stars-url]: https://github.com/plilab/class-spec-rank2/stargazers
+[issues-shield]: https://img.shields.io/github/issues/plilab/class-spec-rank2.svg?style=for-the-badge
+[issues-url]: https://github.com/plilab/class-spec-rank2/issues
+[license-shield]: https://img.shields.io/github/license/plilab/class-spec-rank2.svg?style=for-the-badge
+[license-url]: https://github.com/plilab/class-spec-rank2/blob/master/LICENSE.txt
