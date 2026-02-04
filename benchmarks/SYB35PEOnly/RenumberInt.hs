@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -O2 #-}
 {-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
 {-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:100 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
 
-module SYB35Opt.RenumberInt (renumberInt₇) where
+module SYB35PEOnly.RenumberInt (renumberInt₆) where
 
 import Control.Monad.State.Strict
 import Data.Data3
@@ -19,14 +20,14 @@ getUnique = do
 renumberIntProxy :: Proxy RenumberInt
 renumberIntProxy = undefined
 
-renumberInt₇ :: Int -> WTree Int Int -> WTree Int Int
-renumberInt₇ x y = evalState (renumberInt₇' y) x
+renumberInt₆ :: Int -> WTree Int Int -> WTree Int Int
+renumberInt₆ x y = evalState (renumberInt₆' y) x
 
 class (Data₃ RenumberInt a) => RenumberInt a where
-    renumberInt₇' :: a -> State Int a
-    renumberInt₇' = gmapM₃ renumberIntProxy renumberInt₇'
+    renumberInt₆' :: a -> State Int a
+    renumberInt₆' = gmapM₃ renumberIntProxy renumberInt₆'
 
 instance RenumberInt Int where
-    renumberInt₇' _ = getUnique
+    renumberInt₆' _ = getUnique
 
 instance RenumberInt (WTree Int Int)

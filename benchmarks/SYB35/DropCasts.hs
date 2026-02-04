@@ -1,7 +1,5 @@
 {-# LANGUAGE UndecidableSuperClasses #-}
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
 
 module SYB35.DropCasts (dropCasts₅) where
 
@@ -19,20 +17,20 @@ dropCastsProxy :: Proxy DropCasts
 dropCastsProxy = undefined
 
 class (Data₃ DropCasts a) => DropCasts a where
-  dropCasts :: a -> Writer (Sum Int) a
-  dropCasts = gmapM₃ dropCastsProxy dropCasts
+    dropCasts :: a -> Writer (Sum Int) a
+    dropCasts = gmapM₃ dropCastsProxy dropCasts
 
 instance DropCasts Expr where
-  dropCasts (Cast e _) = do
-    tell (Sum 1)
-    dropCasts e
-  dropCasts x = gmapM₃ dropCastsProxy dropCasts x
+    dropCasts (Cast e _) = do
+        tell (Sum 1)
+        dropCasts e
+    dropCasts x = gmapM₃ dropCastsProxy dropCasts x
 
 instance DropCasts Type where
-  dropCasts (CastTy t _) = do
-    tell (Sum 1)
-    dropCasts t
-  dropCasts x = gmapM₃ dropCastsProxy dropCasts x
+    dropCasts (CastTy t _) = do
+        tell (Sum 1)
+        dropCasts t
+    dropCasts x = gmapM₃ dropCastsProxy dropCasts x
 
 instance DropCasts String'
 

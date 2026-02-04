@@ -1,9 +1,7 @@
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
-{-# OPTIONS_GHC -fplugin OptimizingSYB #-}
-{-# OPTIONS_GHC -fplugin-opt OptimizingSYB:--iter:100 #-}
-{-# OPTIONS_GHC -fplugin-opt OptimizingSYB:--no-symb-exec #-}
+{-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:100 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
 
 module SYBPEOnly.RenumberInt (renumberInt₃) where
 
@@ -13,9 +11,9 @@ import Data.Tree
 
 getUnique :: State Int Int
 getUnique = do
-  u <- get
-  modify (+ 1)
-  return u
+    u <- get
+    modify (+ 1)
+    return u
 
 renumberInt₃ :: Int -> WTree Int Int -> WTree Int Int
 renumberInt₃ x y = evalState (renumberInt₃' y) x

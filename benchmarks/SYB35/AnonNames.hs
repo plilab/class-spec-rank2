@@ -1,7 +1,5 @@
 {-# LANGUAGE UndecidableSuperClasses #-}
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
 
 module SYB35.AnonNames (anonNames₅) where
 
@@ -29,24 +27,24 @@ anonNames₅ :: Company -> Company
 anonNames₅ x = evalState (anonNames x) (1, [])
 
 class (Data₃ AnonNames a) => AnonNames a where
-  anonNames :: a -> State (Int, [(Name, Name)]) a
-  anonNames = gmapM₃ anonNamesProxy anonNames
+    anonNames :: a -> State (Int, [(Name, Name)]) a
+    anonNames = gmapM₃ anonNamesProxy anonNames
 
 instance AnonNames Name where
-  anonNames n = do
-    -- Get the current counter and the memoized mappings.
-    (ctr, mp) <- get :: State (Int, [(Name, Name)]) (Int, [(Name, Name)])
-    -- Check if the transformation on transformed_name has already been done
-    -- before.
-    case lookup n mp of
-      -- It has been done before, so just use the memoized result.
-      Just x -> return x
-      Nothing -> do
-        -- Create a new unique anonymized name using the counter
-        let new_name = MkName (fromNativeList ("anon" ++ show ctr))
-        -- Increment the counter and memoize the result in the map
-        put (ctr + 1, (n, new_name) : mp)
-        return new_name
+    anonNames n = do
+        -- Get the current counter and the memoized mappings.
+        (ctr, mp) <- get :: State (Int, [(Name, Name)]) (Int, [(Name, Name)])
+        -- Check if the transformation on transformed_name has already been done
+        -- before.
+        case lookup n mp of
+            -- It has been done before, so just use the memoized result.
+            Just x -> return x
+            Nothing -> do
+                -- Create a new unique anonymized name using the counter
+                let new_name = MkName (fromNativeList ("anon" ++ show ctr))
+                -- Increment the counter and memoize the result in the map
+                put (ctr + 1, (n, new_name) : mp)
+                return new_name
 
 -------------------------------------------------------------------------------
 --

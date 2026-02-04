@@ -1,7 +1,5 @@
 {-# LANGUAGE UndecidableSuperClasses #-}
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
 
 module SYB35.IncInt (IncInt (..)) where
 
@@ -14,11 +12,11 @@ incIntProxy :: Proxy IncInt
 incIntProxy = undefined
 
 class (Data₃ IncInt a) => IncInt a where
-  incInt₅ :: a -> a
-  incInt₅ = gmapT₃ incIntProxy incInt₅
+    incInt₅ :: a -> a
+    incInt₅ = gmapT₃ incIntProxy incInt₅
 
 instance IncInt Integer where
-  incInt₅ = (+ 1)
+    incInt₅ = (+ 1)
 
 instance IncInt Expr
 

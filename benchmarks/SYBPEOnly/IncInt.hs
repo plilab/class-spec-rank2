@@ -1,9 +1,7 @@
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
-{-# OPTIONS_GHC -fplugin OptimizingSYB #-}
-{-# OPTIONS_GHC -fplugin-opt OptimizingSYB:--iter:1000 #-}
-{-# OPTIONS_GHC -fplugin-opt OptimizingSYB:--no-symb-exec #-}
+{-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:1000 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
 
 module SYBPEOnly.IncInt (incInt₃) where
 

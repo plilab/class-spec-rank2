@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -O2 #-}
 {-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
 {-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:1000 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
 
-module SYB35Opt.IncInt (IncInt' (..)) where
+module SYB35PEOnly.IncInt (IncInt' (..)) where
 
 import Data.Data3
 import Data.Expr
@@ -14,11 +15,11 @@ incIntProxy :: Proxy IncInt'
 incIntProxy = undefined
 
 class (Data₃ IncInt' a) => IncInt' a where
-    incInt₇ :: a -> a
-    incInt₇ = gmapT₃ incIntProxy incInt₇
+    incInt₆ :: a -> a
+    incInt₆ = gmapT₃ incIntProxy incInt₆
 
 instance IncInt' Integer where
-    incInt₇ = (+ 1)
+    incInt₆ = (+ 1)
 
 instance IncInt' Expr
 

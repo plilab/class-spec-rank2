@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -O2 #-}
 {-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
 {-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:1000 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
 
-module SYB35Opt.DropCasts (dropCasts₇) where
+module SYB35PEOnly.DropCasts (dropCasts₆) where
 
 import Control.Monad.Writer.Strict
 import Data.Data3
@@ -12,8 +13,8 @@ import Data.List
 import Data.Monoid (Sum (..), getSum)
 import Data.Typeable
 
-dropCasts₇ :: Expr -> (Expr, Int)
-dropCasts₇ x = let (a, b) = runWriter (dropCasts x) in (a, getSum b)
+dropCasts₆ :: Expr -> (Expr, Int)
+dropCasts₆ x = let (a, b) = runWriter (dropCasts x) in (a, getSum b)
 
 dropCastsProxy :: Proxy DropCasts
 dropCastsProxy = undefined

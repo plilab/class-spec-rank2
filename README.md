@@ -20,12 +20,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-<h3 align="center">Recover Your Boilerplate (RYB)</h3>
+<h3 align="center">Class-Dictionary Specialization of Rank-2 Polymorphic Functions</h3>
 
   <p align="center">
-    Optimizing SYB by Recovering Handwritten Traversals
-    <br />
-    <br />
     <a href="https://github.com/yonggqiii/optimizing-syb/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
     <a href="https://github.com/yonggqiii/optimizing-syb/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
@@ -69,11 +66,9 @@
 
 https://github.com/user-attachments/assets/d1dd286b-6265-46f3-b1f1-ec6c9d071de5
 
-Recover Your Boilerplate (RYB) is a GHC plugin for optimizing [Scrap Your Boilerplate (SYB)](https://wiki.haskell.org/Scrap_your_boilerplate)-style traversals via specialization, thereby recovering all handwritten boilerplate code. With this plugin, virtually all runtime/space costs associated with using SYB constructs are eliminated by rebuilding handwritten "boilerplate" traversals from SYB-style traversals.
+This is a GHC plugin for optimizing Haskell programs that use rank-2 polymorphic functions with (ad-hoc) polymorphic arguments. A typical example is the [Scrap Your Boilerplate (SYB)](https://wiki.haskell.org/Scrap_your_boilerplate) library.
 
-Currently, this plugin supports optimizations for `mkT`, `mkQ`, `mkM` aliases (along with their `ext` variants), and the traversal schemes `everywhere`, `everywhere'`, `everything` and `everywhereM`. Support for other aliases and schemes are in progress.
-
-This plugin has been tested on GHC version 9.4.8. Support for more GHC versions is in progress.
+This plugin has been tested on GHC version 9.8.4. Support for more GHC versions is in progress.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -84,8 +79,8 @@ This is an example of how you may give instructions on setting up your project l
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-- [GHC](https://www.haskell.org/ghc/) v9.4.8 (base v4.17.2.1)
-- [Cabal](https://www.haskell.org/cabal/) v3.10.3.0
+- [GHC](https://www.haskell.org/ghc/) v9.8.4 
+- [Cabal](https://www.haskell.org/cabal/) v3.12
 - git
 
 ### Installing and Building
@@ -102,12 +97,10 @@ You're all set!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 ### Basic Usage
-This plugin can be used when compiling any source file containing SYB functions. For example:
+This plugin can be used when compiling any source file. For example:
 ```haskell
 import Data.Company -- A 'Company' datatype that derives Data
 import Data.Generics ( everywhere, mkT ) -- SYB functions
@@ -118,9 +111,9 @@ incS k (S s) = S $ s * (1 + k)
 increase :: Data a => Float -> a -> a
 increase k = everywhere $ mkT (incS k)
 ```
-To compile with this plugin, specify the `-O2` optimization and the `OptimizingSYB` plugin, like so:
+To compile with this plugin, specify the `-O2` optimization and the `ClassSpecRank2` plugin, like so:
 ```haskell
-{-# OPTIONS_GHC -O2 -fplugin OptimizingSYB #-}
+{-# OPTIONS_GHC -O2 -fplugin ClassSpecRank2 #-}
 import Data.Company -- A 'Company' datatype that derives Data
 import Data.Generics ( everywhere, mkT ) -- SYB functions
 
@@ -148,15 +141,15 @@ Include the plugin project directory in your `cabal.project` file:
 ```cabal
 packages: .
           -- ...
-          /path/to/optimizing-syb
+          /path/to/class-spec-rank2
 ```
-Include `optimizing-syb` in your build dependencies in your `my-project.cabal` file:
+Include `class-spec-rank2` in your build dependencies in your `my-project.cabal` file:
 ```cabal
 -- ...
 executable MyProject
   -- ...
   build-depends:   -- ...
-                 , optimizing-syb
+                 , class-spec-rank2
                    -- ... 
 ```
 Now you can build your project with `cabal build` and this plugin will optimize your traversals!
@@ -172,7 +165,7 @@ data Company = C [Dept] deriving (Show, Data)
 data Dept = D Name Manager [SubUnit] deriving (Show, Data)
 -- ...
 ```
-Otherwise, the plugin may not be able to inline occurrences of `gmapT`, `gmapQ` etc., especially when your datatypes are recursive (GHC does not expose these unfoldings when that is the case):
+Otherwise, the plugin may not be able to inline occurrences of recursive methods/dictionaries,k like `gmapT`, `gmapQ` etc. from `Data`, especially when your datatypes are recursive (GHC does not expose these unfoldings when that is the case):
 ```haskell
 {-# OPTIONS_GHC -fexpose-all-unfoldings #-}
 data Tree a = Empty | Node (Tree a) a (Tree a) deriving (Show, Data) -- unfoldings for Data (Tree a) are not exposed without
@@ -181,23 +174,14 @@ data Tree a = Empty | Node (Tree a) a (Tree a) deriving (Show, Data) -- unfoldin
 _Note: this requirement affects any data type where `[]` occurs, because GHC does not expose the unfoldings for `Data [a]`. In our testing, re-compiling GHC with the `-fexpose-all-unfoldings` option included in the `Data.Data` source file removes this issue._
 
 ### Plugin Options
-This plugin does not have customizations, since virtually all passes included are required for optimizing SYB-style traversals. However, this plugin exposes verbosity options to track the transformations applied to the program.
-
-This plugin runs several transformations:
-1. Simple optimizations (`--show-simple`): runs a simple preprocessor to inline and simplify invocations of `($)` to reveal applications of SYB schemes
-2. Function map extraction (`--show-function-map`): groups `SPECIALIZE`'d functions together for traversal extraction
-3. Traversal extraction (`--show-traversal-extraction`): extracts SYB-style traversals as standalone least function for specialization
-4. Scheme elimination (`--show-scheme-elim`): eliminates schemes like `everywhere` by turning traversals into recursive functions
-5. Traversal specialization (`--show-spec`): specializes traversals
-6. Combinator elimination (`--show-gmap-elim`): eliminates calls to combinators like `gmapT` by inlining
-7. Type-level evaluation (`--show-type-eval`): eliminates calls to aliases like `mkT` by compile-time type-level evaluation
-
-To see the result of running each phase, provide these flags as options to the `OptimizingSYB` plugin. For example, to show the scheme elimination and combinator elimination passes, you may do something like
+1. Debug (`--debug`): show some information
+2. Iteration limit (`--iter:100`): Set the iteration limit for the partial evaluator to be 100
+3. No type constant folding (`--no-type-fold`): Disables type constant folding, only performing partial evaluation.
 
 ```haskell
-{-# OPTIONS_GHC -O2 -fplugin OptimizingSYB #-}
-{-# OPTIONS_GHC -fplugin-opt OptimizingSYB:--show-scheme-elim #-}
-{-# OPTIONS_GHC -fplugin-opt OptimizingSYB:--show-gmap-elim #-}
+{-# OPTIONS_GHC -O2 -fplugin ClassSpecRank2 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:100 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
 
 import Data.Company -- A 'Company' datatype that derives Data
 import Data.Generics ( everywhere, mkT ) -- SYB functions
@@ -215,10 +199,6 @@ increase k = everywhere $ mkT (incS k)
 
 <!-- ROADMAP -->
 ## Roadmap
-
-- [ ] Support for all SYB features
-- [ ] Support for GHC > 9.4.8
-- [ ] Support for GHC < 9.4.8
 
 See the [open issues](https://github.com/yonggqiii/optimizing-syb/issues) for a full list of proposed features (and known issues).
 

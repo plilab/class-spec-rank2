@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -O2 #-}
 {-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
 {-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:100 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
 
-module SYB35Opt.SelectFloat (SelectFloat' (..)) where
+module SYB35PEOnly.SelectFloat (SelectFloat' (..)) where
 
 import Data.Company
 import Data.Data3
@@ -18,11 +19,11 @@ go e [] = e
 go e (x : xs) = go (e ++ x) xs
 
 class (Data₃ SelectFloat' a) => SelectFloat' a where
-    selectFloat₇ :: a -> [Float]
-    selectFloat₇ x = go [] (gmapQ₃ sfProxy selectFloat₇ x)
+    selectFloat₆ :: a -> [Float]
+    selectFloat₆ x = go [] (gmapQ₃ sfProxy selectFloat₆ x)
 
 instance SelectFloat' Salary where
-    selectFloat₇ (S x) = [x]
+    selectFloat₆ (S x) = [x]
 
 instance SelectFloat' Company
 

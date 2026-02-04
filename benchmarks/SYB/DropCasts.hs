@@ -1,6 +1,4 @@
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
 
 module SYB.DropCasts (dropCasts₂) where
 
@@ -17,12 +15,12 @@ dropCasts = everywhereM (return `extM` myExprTrans `extM` myTypeTrans)
 
 myExprTrans :: Expr -> Writer (Sum Int) Expr
 myExprTrans (Cast e _) = do
-  tell (Sum 1)
-  return e
+    tell (Sum 1)
+    return e
 myExprTrans x = return x
 
 myTypeTrans :: Type -> Writer (Sum Int) Type
 myTypeTrans (CastTy t _) = do
-  tell (Sum 1)
-  return t
+    tell (Sum 1)
+    return t
 myTypeTrans x = return x

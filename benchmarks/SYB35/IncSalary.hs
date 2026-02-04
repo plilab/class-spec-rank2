@@ -1,7 +1,5 @@
 {-# LANGUAGE UndecidableSuperClasses #-}
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
 
 module SYB35.IncSalary where
 
@@ -14,11 +12,11 @@ incProxy :: Proxy IncSalary
 incProxy = undefined
 
 class (Data₃ IncSalary a) => IncSalary a where
-  incSalary₅ :: Float -> a -> a
-  incSalary₅ k = gmapT₃ incProxy (incSalary₅ k)
+    incSalary₅ :: Float -> a -> a
+    incSalary₅ k = gmapT₃ incProxy (incSalary₅ k)
 
 instance IncSalary Salary where
-  incSalary₅ k (S x) = S (x * (1 + k))
+    incSalary₅ k (S x) = S (x * (1 + k))
 
 instance IncSalary Name
 

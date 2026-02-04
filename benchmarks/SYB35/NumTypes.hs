@@ -1,7 +1,5 @@
 {-# LANGUAGE UndecidableSuperClasses #-}
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
 
 module SYB35.NumTypes (NumTypes (..)) where
 
@@ -18,11 +16,11 @@ go x [] = x
 go x (y : ys) = go x ys + y
 
 class (Data₃ NumTypes a) => NumTypes a where
-  numTypes₅ :: a -> Int
-  numTypes₅ x = go 0 (gmapQ₃ ntProxy numTypes₅ x)
+    numTypes₅ :: a -> Int
+    numTypes₅ x = go 0 (gmapQ₃ ntProxy numTypes₅ x)
 
 instance NumTypes Type where
-  numTypes₅ x = go 1 (gmapQ₃ ntProxy numTypes₅ x)
+    numTypes₅ x = go 1 (gmapQ₃ ntProxy numTypes₅ x)
 
 instance NumTypes Integer
 

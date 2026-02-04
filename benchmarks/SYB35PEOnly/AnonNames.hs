@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -O2 #-}
 {-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
 {-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:100 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
 
-module SYB35Opt.AnonNames (anonNames₇) where
+module SYB35PEOnly.AnonNames (anonNames₆) where
 
 import Control.Monad.State.Strict
 import Data.Company
@@ -14,8 +15,8 @@ import Data.Typeable
 anonNamesProxy :: Proxy AnonNames
 anonNamesProxy = undefined
 
-anonNames₇ :: Company -> Company
-anonNames₇ x = evalState (anonNames x) (1, [])
+anonNames₆ :: Company -> Company
+anonNames₆ x = evalState (anonNames x) (1, [])
 
 class (Data₃ AnonNames a) => AnonNames a where
     anonNames :: a -> State (Int, [(Name, Name)]) a

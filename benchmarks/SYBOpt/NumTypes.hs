@@ -1,9 +1,6 @@
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
-{-# OPTIONS_GHC -fplugin OptimizingSYB #-}
-{-# OPTIONS_GHC -fplugin-opt OptimizingSYB:--debug #-}
-{-# OPTIONS_GHC -fplugin-opt OptimizingSYB:--iter:1000 #-}
+{-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:1000 #-}
 
 module SYBOpt.NumTypes (numTypes₄) where
 

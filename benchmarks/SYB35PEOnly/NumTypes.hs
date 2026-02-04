@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -O2 #-}
 {-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
 {-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:1000 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
 
-module SYB35Opt.NumTypes (NumTypes' (..)) where
+module SYB35PEOnly.NumTypes (NumTypes' (..)) where
 
 import Data.Data3
 import Data.Expr
@@ -18,11 +19,11 @@ go x [] = x
 go x (y : ys) = go x ys + y
 
 class (Data₃ NumTypes' a) => NumTypes' a where
-    numTypes₇ :: a -> Int
-    numTypes₇ x = go 0 (gmapQ₃ ntProxy numTypes₇ x)
+    numTypes₆ :: a -> Int
+    numTypes₆ x = go 0 (gmapQ₃ ntProxy numTypes₆ x)
 
 instance NumTypes' Type where
-    numTypes₇ x = go 1 (gmapQ₃ ntProxy numTypes₇ x)
+    numTypes₆ x = go 1 (gmapQ₃ ntProxy numTypes₆ x)
 
 instance NumTypes' Integer
 

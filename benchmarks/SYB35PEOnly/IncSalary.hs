@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -O2 #-}
 {-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
 {-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:100 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
 
-module SYB35Opt.IncSalary where
+module SYB35PEOnly.IncSalary where
 
 import Data.Company
 import Data.Data3
@@ -14,11 +15,11 @@ incProxy :: Proxy IncSalary'
 incProxy = undefined
 
 class (Data₃ IncSalary' a) => IncSalary' a where
-    incSalary₇ :: Float -> a -> a
-    incSalary₇ k = gmapT₃ incProxy (incSalary₇ k)
+    incSalary₆ :: Float -> a -> a
+    incSalary₆ k = gmapT₃ incProxy (incSalary₆ k)
 
 instance IncSalary' Salary where
-    incSalary₇ k (S x) = S (x * (1 + k))
+    incSalary₆ k (S x) = S (x * (1 + k))
 
 instance IncSalary' Company
 

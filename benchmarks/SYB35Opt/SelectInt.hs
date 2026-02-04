@@ -1,21 +1,20 @@
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
-{-# OPTIONS_GHC -fplugin OptimizingSYB #-}
-{-# OPTIONS_GHC -fplugin-opt OptimizingSYB:--iter:100 #-}
-{-# OPTIONS_GHC -fplugin-opt OptimizingSYB:--no-symb-exec #-}
+{-# OPTIONS_GHC -fplugin ClassSpecRank2 #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:100 #-}
+
+-- {-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-symb-exec #-}
 
 module SYB35Opt.SelectInt (SelectInt' (..)) where
 
 import Data.Tree
 
 class SelectInt' a where
-  selectInt₆ :: a -> [Int]
+    selectInt₇ :: a -> [Int]
 
 instance SelectInt' (WTree Int Int) where
-  selectInt₆ (Leaf x) = [x]
-  selectInt₆ (Fork l r) = go [] [selectInt₆ l, selectInt₆ r]
-  selectInt₆ (WithWeight t w) = go [] [selectInt₆ t, [w]]
+    selectInt₇ (Leaf x) = [x]
+    selectInt₇ (Fork l r) = go [] [selectInt₇ l, selectInt₇ r]
+    selectInt₇ (WithWeight t w) = go [] [selectInt₇ t, [w]]
 
 go :: [Int] -> [[Int]] -> [Int]
 go e [] = e
