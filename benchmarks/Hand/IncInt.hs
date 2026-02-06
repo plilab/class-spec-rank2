@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
+{-# OPTIONS_GHC -ddump-timings -ddump-to-file #-}
 
 module Hand.IncInt (incInt₁) where
 
@@ -22,10 +21,10 @@ incCoercion :: Coercion -> Coercion
 incCoercion (MyRefl t) = MyRefl (incType t)
 incCoercion (GMyRefl a b c) = GMyRefl (incRole a) (incType b) (incCoercion c)
 incCoercion (MyTyConAppCo a b c) =
-  MyTyConAppCo
-    (incRole a)
-    (incMyTyCon b)
-    (incCoercion <$> c)
+    MyTyConAppCo
+        (incRole a)
+        (incMyTyCon b)
+        (incCoercion <$> c)
 incCoercion (AppCo a b) = AppCo (incCoercion a) (incCoercion b)
 incCoercion (ForAllCo a b c) = ForAllCo (incVar a) (incCoercion b) (incCoercion c)
 incCoercion (FunCo a b c d) = FunCo (incRole a) (incCoercion b) (incCoercion c) (incCoercion d)

@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
+{-# OPTIONS_GHC -ddump-timings -ddump-to-file #-}
 
 module Hand.DropCasts (dropCasts₁) where
 
@@ -14,10 +13,10 @@ dropCasts₁ x = let (a, b) = runWriter (dropCasts x) in (a, getSum b)
 
 dropCasts :: Expr -> Writer (Sum Int) Expr
 dropCasts (Cast e c) = do
-  e' <- dropCasts e
-  _ <- dropCastsCoercion c
-  tell (Sum 1)
-  return e'
+    e' <- dropCasts e
+    _ <- dropCastsCoercion c
+    tell (Sum 1)
+    return e'
 dropCasts (Var i) = Var <$> dropCastsVar i
 dropCasts (Lit l) = Lit <$> dropCastsLit l
 dropCasts (App e e2) = App <$> dropCasts e <*> dropCasts e2
@@ -35,10 +34,10 @@ dropCastsType (ForAllTy a b) = ForAllTy <$> dropCastsVar a <*> dropCastsType b
 dropCastsType (FunTy a b c) = FunTy <$> dropCastsType a <*> dropCastsType b <*> dropCastsType c
 dropCastsType (LitTy l) = LitTy <$> dropCastsTyLit l
 dropCastsType (CastTy t c) = do
-  t' <- dropCastsType t
-  _ <- dropCastsCoercion c
-  tell (Sum 1)
-  return t'
+    t' <- dropCastsType t
+    _ <- dropCastsCoercion c
+    tell (Sum 1)
+    return t'
 dropCastsType (CoercionTy c) = CoercionTy <$> dropCastsCoercion c
 
 dropCastsTyLit :: TyLit -> Writer (Sum Int) TyLit

@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
+{-# OPTIONS_GHC -ddump-timings -ddump-to-file #-}
 
 module Hand.SelectFloat (selectFloat₁) where
 
