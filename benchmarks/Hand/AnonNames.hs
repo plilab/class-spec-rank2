@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -O2 #-}
-{-# OPTIONS_GHC -ddump-simpl #-}
-{-# OPTIONS_GHC -ddump-to-file #-}
+{-# OPTIONS_GHC -ddump-timings -ddump-to-file #-}
 
 module Hand.AnonNames (anonNames₁) where
 
@@ -29,37 +28,37 @@ anonNamesCompany (C ls) = C <$> anonNamesListDept ls
 anonNamesListDept :: List' Dept -> State (Int, [(Name, Name)]) (List' Dept)
 anonNamesListDept Nil = return Nil
 anonNamesListDept (x `Cons` xs) =
-  Cons
-    <$> anonNamesDept x
-    <*> anonNamesListDept xs
+    Cons
+        <$> anonNamesDept x
+        <*> anonNamesListDept xs
 
 anonNamesDept :: Dept -> State (Int, [(Name, Name)]) Dept
 anonNamesDept (D n m s) =
-  D
-    <$> anonNamesName n
-    <*> anonNamesEmployee m
-    <*> anonNamesListSubUnit s
+    D
+        <$> anonNamesName n
+        <*> anonNamesEmployee m
+        <*> anonNamesListSubUnit s
 
 -- This is the actual interesting portion of the traversal.
 anonNamesName :: Name -> State (Int, [(Name, Name)]) Name
 anonNamesName (MkName s) = do
-  -- First, recursively anonymize any names occurring in subterms.
-  s' <- anonNamesString s
-  -- Get the current counter and the memoized mappings.
-  (ctr, mp) <- get :: State (Int, [(Name, Name)]) (Int, [(Name, Name)])
-  -- Take s' and put it as a Name
-  let transformed_name = MkName s'
-  -- Check if the transformation on transformed_name has already been done
-  -- before.
-  case lookup transformed_name mp of
-    -- It has been done before, so just use the memoized result.
-    Just x -> return x
-    Nothing -> do
-      -- Create a new unique anonymized name using the counter
-      let new_name = MkName (fromNativeList ("anon" ++ show ctr))
-      -- Increment the counter and memoize the result in the map
-      put (ctr + 1, (transformed_name, new_name) : mp)
-      return new_name
+    -- First, recursively anonymize any names occurring in subterms.
+    s' <- anonNamesString s
+    -- Get the current counter and the memoized mappings.
+    (ctr, mp) <- get :: State (Int, [(Name, Name)]) (Int, [(Name, Name)])
+    -- Take s' and put it as a Name
+    let transformed_name = MkName s'
+    -- Check if the transformation on transformed_name has already been done
+    -- before.
+    case lookup transformed_name mp of
+        -- It has been done before, so just use the memoized result.
+        Just x -> return x
+        Nothing -> do
+            -- Create a new unique anonymized name using the counter
+            let new_name = MkName (fromNativeList ("anon" ++ show ctr))
+            -- Increment the counter and memoize the result in the map
+            put (ctr + 1, (transformed_name, new_name) : mp)
+            return new_name
 
 anonNamesEmployee :: Employee -> State (Int, [(Name, Name)]) Employee
 anonNamesEmployee (E p s) = E <$> anonNamesPerson p <*> anonNamesSalary s
@@ -74,13 +73,13 @@ anonNamesFloat :: Float -> State (Int, [(Name, Name)]) Float
 anonNamesFloat = return
 
 anonNamesListSubUnit ::
-  List' SubUnit ->
-  State (Int, [(Name, Name)]) (List' SubUnit)
+    List' SubUnit ->
+    State (Int, [(Name, Name)]) (List' SubUnit)
 anonNamesListSubUnit Nil = return Nil
 anonNamesListSubUnit (x `Cons` xs) =
-  Cons
-    <$> anonNamesSubUnit x
-    <*> anonNamesListSubUnit xs
+    Cons
+        <$> anonNamesSubUnit x
+        <*> anonNamesListSubUnit xs
 
 anonNamesSubUnit :: SubUnit -> State (Int, [(Name, Name)]) SubUnit
 anonNamesSubUnit (PU e) = PU <$> anonNamesEmployee e

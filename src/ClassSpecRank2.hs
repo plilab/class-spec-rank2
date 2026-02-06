@@ -19,7 +19,10 @@ install c todo = do
     opts <- parseCommandLineOpts c
     if no_type_fold opts
         then return $ simplify ++ [pepsa opts] ++ todo
-        else return $ simplify ++ [pepsa opts] ++ simplify ++ [typeConstantFold opts] ++ todo ++ [typeConstantFold opts] ++ todo
+        else
+            if pipe_once opts
+                then return $ simplify ++ [pepsa opts] ++ simplify ++ [typeConstantFold opts] ++ todo
+                else return $ simplify ++ [pepsa opts] ++ simplify ++ [typeConstantFold opts] ++ todo ++ [typeConstantFold opts] ++ todo
   where
     simplify =
         filter

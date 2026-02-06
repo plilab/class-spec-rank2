@@ -10,6 +10,7 @@ data Opts = Opts
     , num_iterations :: Int
     , debug :: Bool
     , no_type_fold :: Bool
+    , pipe_once :: Bool
     }
     deriving (Show, Eq)
 
@@ -21,6 +22,7 @@ parseCommandLineOpts [] =
             , num_iterations = 100
             , debug = False
             , no_type_fold = False
+            , pipe_once = False
             }
 parseCommandLineOpts (x : xs) =
     do
@@ -39,6 +41,7 @@ parseCommandLineOpts (x : xs) =
                         Nothing -> putMsgS (warn ("Invalid number of iterations for --iter: " ++ xs')) >> return opts
             "--debug" -> return opts{debug = True}
             "--no-type-fold" -> return opts{no_type_fold = True}
+            "--pipe-once" -> return opts{pipe_once = True}
             _ -> putMsgS (warn ("Unknown option for ClassSpecRank2: " ++ x)) >> return opts
 
 box :: Int -> String -> PprColour -> String

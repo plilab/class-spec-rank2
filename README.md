@@ -174,11 +174,13 @@ _Note: this requirement affects any data type where `[]` occurs, because GHC doe
 1. Debug (`--debug`): show some information
 2. Iteration limit (`--iter:100`): Set the iteration limit for the partial evaluator to be 100
 3. No type constant folding (`--no-type-fold`): Disables type constant folding, only performing partial evaluation.
+4. Running the pipeline once (`--pipe-once`): Only runs the optimization pipeline once. This is usually the default, but we added this option for benchmarking in our paper.
 
 ```haskell
 {-# OPTIONS_GHC -O2 -fplugin ClassSpecRank2 #-}
 {-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--iter:100 #-}
 {-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--no-type-fold #-}
+{-# OPTIONS_GHC -fplugin-opt ClassSpecRank2:--pipe-once #-}
 
 import Data.Company -- A 'Company' datatype that derives Data
 import Data.Generics ( everywhere, mkT ) -- SYB functions
